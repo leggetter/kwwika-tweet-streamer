@@ -1,0 +1,10 @@
+
+KwwikaTweetStreamer.suo
+KwwikaTweetStreamerPublisher/bin/*
+KwwikaTweetStreamerPublisher/obj/*
+KwwikaTweetStreamerPublisherTests/bin/*
+KwwikaTweetStreamerPublisherTests/obj/*
+TweetStreamer/trunk/TweetStreamer/.svn/*
+TweetStreamer/trunk/TweetStreamer/Properties/.svn/*
+TweetStreamer/trunk/TweetStreamer/obj/*
+TweetStreamer/trunk/TweetStreamer/bin/Debug/*

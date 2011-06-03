@@ -103,14 +103,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMessagePublisher.cs" />
+    <Compile Include="KwwikaPublisher.cs" />
     <Compile Include="LoggerWrapper.cs" />
+    <Compile Include="LogOnlyPublisher.cs" />
+    <Compile Include="MessagePublisherProxy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Publisher.cs" />
     <Compile Include="KwwikaTweetStreamerPublisherConfig.cs" />
+    <Compile Include="PusherPublisher.cs" />
     <Compile Include="XmlConfigurator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\grahamscott-pusherdotnet-81c3c93\PusherDotNet\PusherDotNet.csproj">
+      <Project>{A4889613-5DF5-41B9-8B92-D9647545872D}</Project>
+      <Name>PusherDotNet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TweetStreamer\trunk\TweetStreamer\TweetStreamer.csproj">
       <Project>{0C467627-5F86-4DD0-AD7E-74B334627254}</Project>
       <Name>TweetStreamer</Name>

@@ -175,15 +175,23 @@ namespace TweetStreamer
             {
                 _requestThread = new Thread(delegate()
                 {
-                    HttpWebRequest request = CreateRequest(this._url, this._requestMethod, this._requestParameters);
+                    try
+                    {
+                        HttpWebRequest request = CreateRequest(this._url, this._requestMethod, this._requestParameters);
 
 #if SILVERLIGHT
                 request.AllowReadStreamBuffering = false;
 #else
-                    request.Credentials = new NetworkCredential(this._username, this._password);
+                        request.Credentials = new NetworkCredential(this._username, this._password);
 #endif
 
-                    request.BeginGetResponse(ConnectionResponseCallback, request);
+                        request.BeginGetResponse(ConnectionResponseCallback, request);
+                    }
+                    catch (Exception ex)
+                    {
+                        this._logger.LogError(ex);
+                        this.InternalConnectionStatus = ConnectionStatus.Disconnected;
+                    }
                 });
                 _requestThread.Start();
             }

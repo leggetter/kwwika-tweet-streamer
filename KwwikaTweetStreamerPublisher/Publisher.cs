@@ -12,10 +12,12 @@ using System.Threading;
 
 namespace KwwikaTweetStreamerPublisher
 {
-    public class Publisher: IConnectionListener, ICommandListener
+    public class Publisher
     {
+        IMessagePublisher _messagePublisher;
+        
         TweetStreamer.Connection _connection;
-        IConnection _kwwikaConnection;
+        
         private TweetStreamer.ConnectionStatus _actualConnectionStatus = TweetStreamer.ConnectionStatus.Disconnected;
         private TweetStreamer.ConnectionStatus _intendedConnectionStatus = TweetStreamer.ConnectionStatus.Disconnected;
         private KwwikaTweetStreamerPublisherConfig _config;
@@ -35,6 +37,8 @@ namespace KwwikaTweetStreamerPublisher
             _connection = new TweetStreamer.Connection(config.TwitterConfig.Username, config.TwitterConfig.Password, config.TwitterConfig.Url, twitterParams, "POST", _logger);
             _connection.ConnectionStatusChanged += new TweetStreamer.Connection.OnConnectionStatusChangedEventHandler(connection_ConnectionStatusChanged);
             _connection.StatusMessageReceived += new TweetStreamer.Connection.OnStatusMessageReceivedEventHandler(connection_StatusMessageReceived);
+
+            _messagePublisher = new MessagePublisherProxy(_logger, config);            
         }
 
         private string BuildTwitterParams(SearchDefinition[] searchDefinitions)
@@ -100,8 +104,9 @@ namespace KwwikaTweetStreamerPublisher
         public void Connect()
         {
             _intendedConnectionStatus = TweetStreamer.ConnectionStatus.Connected;
-            _kwwikaConnection = Kwwika.Service.Connect(_config.KwwikaConfig.ApiKey, _config.KwwikaConfig.Domain, this);
-            _kwwikaConnection.Logger = _logger;
+
+            _connection.Connect();
+
             this.SendIntialCountFieldValues(_config.SearchDefinitions);
         }
 
@@ -109,10 +114,9 @@ namespace KwwikaTweetStreamerPublisher
         {
             _intendedConnectionStatus = TweetStreamer.ConnectionStatus.Disconnected;
             _connection.Disconnect();
-            if (_kwwikaConnection != null)
-            {
-                _kwwikaConnection.Disconnect();
-            }
+
+
+            _messagePublisher.Disconnect();
         }
 
         private void AddFieldOrBlankToDictionary(Dictionary<string, string> tweetUpdate, string name, string value)
@@ -280,7 +284,7 @@ namespace KwwikaTweetStreamerPublisher
 
         private void Publish(string topic, Dictionary<string,string> publishParams)
         {
-            _kwwikaConnection.Publish(topic, publishParams, this);
+            _messagePublisher.Publish(topic, publishParams);
         }
 
         private void AddCountFieldsToUpdate(string[] topics, Dictionary<string, string> tweetUpdate, SearchDefinition[] searchDefinitions)
@@ -368,37 +372,6 @@ namespace KwwikaTweetStreamerPublisher
 
         #endregion
 
-        #region IConnectionListener Members
-
-        public void ConnectionStatusUpdated(Kwwika.ConnectionStatus status)
-        {
-            if (status != Kwwika.ConnectionStatus.Connected
-                && _intendedConnectionStatus == TweetStreamer.ConnectionStatus.Connected &&
-                _connection.Status != TweetStreamer.ConnectionStatus.Connected &&
-                _connection.Status != TweetStreamer.ConnectionStatus.Connecting)
-            {
-                _connection.Connect();
-            }
-            else
-            {
-                // TODO: pause Twitter connection updates
-            }
-        }
-
-        #endregion
-
-        #region ICommandListener Members
-
-        public void CommandError(string topic, CommandErrorType code)
-        {
-            _logger.LogError("failed to publish to" + topic);
-        }
-
-        public void CommandSuccess(string topic)
-        {
-            _logger.LogInfo("successfully to publish to" + topic);
-        }
-
-        #endregion
+        
     }
 }

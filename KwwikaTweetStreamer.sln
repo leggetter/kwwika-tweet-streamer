@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweetStreamer", "TweetStrea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KwwikaTweetStreamerPublisherTests", "KwwikaTweetStreamerPublisherTests\KwwikaTweetStreamerPublisherTests.csproj", "{55F80A1A-1129-4D66-A3E9-5CE727C2FDB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PusherDotNet", "grahamscott-pusherdotnet-81c3c93\PusherDotNet\PusherDotNet.csproj", "{A4889613-5DF5-41B9-8B92-D9647545872D}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = KwwikaTweetStreamer.vsmdi
@@ -34,6 +36,10 @@ Global
 		{55F80A1A-1129-4D66-A3E9-5CE727C2FDB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55F80A1A-1129-4D66-A3E9-5CE727C2FDB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55F80A1A-1129-4D66-A3E9-5CE727C2FDB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4889613-5DF5-41B9-8B92-D9647545872D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4889613-5DF5-41B9-8B92-D9647545872D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4889613-5DF5-41B9-8B92-D9647545872D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4889613-5DF5-41B9-8B92-D9647545872D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
